@@ -1,6 +1,7 @@
 package com.example.jiayi.myapplication;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -32,7 +34,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
  * See the <a href="https://developer.android.com/design/patterns/navigation-drawer.html#Interaction">
  * design guidelines</a> for a complete explanation of the behaviors implemented here.
  */
-public class MapFragment extends Fragment {
+public class MapFragment extends Fragment implements View.OnClickListener {
 
     /**
      * The fragment argument representing the section number for this
@@ -57,6 +59,8 @@ public class MapFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        Button b=(Button)rootView.findViewById(R.id.search);
+        b.setOnClickListener(this);
         setUpMapIfNeeded();
         return rootView;
     }
@@ -107,5 +111,11 @@ public class MapFragment extends Fragment {
         mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
     }
 
+    @Override
+    public void onClick(View v) {
+        Intent i=new Intent(getActivity(),showtime.class);
+        getActivity().startActivity(i);
+
+    }
 }
 
