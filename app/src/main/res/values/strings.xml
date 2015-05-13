@@ -16,4 +16,9 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_showtime">showtime</string>
     <string name="title_activity_route">RouteActivity</string>
+
+    <string-array name="strarr" >
+        <item>Depart at</item>
+        <item>Arrive at</item>
+    </string-array>
 </resources>
