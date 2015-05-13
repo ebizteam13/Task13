@@ -1,13 +1,7 @@
 package com.example.jiayi.myapplication;
 
-import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-
-
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -43,6 +37,8 @@ public class showtime extends Activity {
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private TextView stopView;
     private Button button;
+    String origin;
+    String destination;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,10 +48,11 @@ public class showtime extends Activity {
 //        button=(Button)findViewById(R.id.button);
 
         DirectionsFetcher df=new DirectionsFetcher();
-        String origin="5440 fifth avenue";
-        String destination="carnegie mellon university";
+        origin="5440 fifth avenue";
+        destination="carnegie mellon university";
         df.execute(origin,destination);
         //TRY TO SHOW USERS CURRENT LOCATION
+
 
     }
 
@@ -118,6 +115,8 @@ public class showtime extends Activity {
             try {
                 LinearLayout ll=(LinearLayout)findViewById(R.id.skandy);
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+
                 for(int i=0;i<routes.length();i++){
                     JSONObject route=routes.getJSONObject(i);
                     JSONArray a = route.getJSONArray("legs");
@@ -141,6 +140,8 @@ public class showtime extends Activity {
                     String arrivalS=(String)arrivalStop.get("name");
                     final String deptT=(String)departureTime.get("text");
                     String deptS=(String)departureStop.get("name");
+
+
 
                     Button my=new Button(showtime.this);
                     my.setText(busName+"\t"+arrivalT+" "+arrivalS+"\n\t"+deptT+" "+deptS);
