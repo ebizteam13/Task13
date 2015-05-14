@@ -101,7 +101,7 @@ public class MainActivity extends ActionBarActivity
     }
 
     public void addBookmark(View v){
-        favoriteDB.addFavorite(new FavoriteItem(((EditText) findViewById(R.id.to)).getText().toString(), ((EditText) findViewById(R.id.from)).getText().toString()));
+        favoriteDB.addFavorite(new FavoriteItem(((EditText) findViewById(R.id.from)).getText().toString(), ((EditText) findViewById(R.id.to)).getText().toString()));
         ((Button)findViewById(R.id.addBookmark)).setEnabled(false);
     }
     public void searchRoute(View v){
