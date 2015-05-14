@@ -7,23 +7,26 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:orientation="vertical"
+    android:weightSum="1"
     tools:context=".MainActivity">
 
     <TextView android:text="From"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textColor="#fffcfff9" />
 
     <EditText
         android:id="@+id/from"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
-        android:hint="Enter the origin"/>
+        android:hint="Enter origin" />
 
 
     <TextView android:text="To"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textColor="#fff4fdff" />
 
     <EditText
         android:id="@+id/to"
@@ -31,19 +34,55 @@
         android:layout_height="wrap_content"
         android:hint="Enter destination"/>
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Depart Time"
-        android:onClick="showDialog"
-        android:id="@+id/time" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinner"
+            android:entries="@array/strarr"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/time"
+            android:layout_alignParentBottom="true"
+            android:spinnerMode="dialog" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="time"
+            android:onClick="showDialog"
+            android:id="@+id/time"
+            android:layout_gravity="center_horizontal"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:id="@+id/edtTime"
+            android:layout_width="108dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
 
     <Button
         android:id="@+id/search"
         android:text="Search Buses"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:onClick="searchRoute"
+        android:clickable="true" />
+    <Button
+        android:id="@+id/addBookmark"
+        android:text="Add Bookmark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="addBookmark"
+        android:clickable="true" />
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
