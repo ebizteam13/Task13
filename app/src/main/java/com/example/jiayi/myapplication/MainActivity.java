@@ -177,7 +177,11 @@ public class MainActivity extends ActionBarActivity
 
         return super.onOptionsItemSelected(item);
     }
-    public void onFragmentInteraction(String id){
+    public void onFragmentInteraction(FavoriteItem favoriteItem){
+        Intent intent = new Intent(this, showtime.class);
+        intent.putExtra("origin", favoriteItem.getDepart());
+        intent.putExtra("destination",favoriteItem.getDestination());
+        startActivity(intent);
 
     }
 
