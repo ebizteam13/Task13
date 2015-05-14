@@ -1,5 +1,7 @@
 package com.example.jiayi.myapplication;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -147,36 +149,51 @@ public class showtime extends Activity {
                     my.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            try {
-                                String time=TWENTY_FOUR_TF.format(
-                                        TWELVE_TF.parse(arrivalT));
+
+                                new AlertDialog.Builder(showtime.this)
+                                        .setTitle("Set Alarm")
+                                        .setMessage("Do you want to set an alarm to alert  you of the destination?")
+                                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                // continue with delete
+                                                String time= null;
+                                                try {
+                                                    time = TWENTY_FOUR_TF.format(
+                                                            TWELVE_TF.parse(arrivalT));
+                                                } catch (ParseException e) {
+                                                    e.printStackTrace();
+                                                }
 //                            SimpleDateFormat currF=new SimpleDateFormat("HH:mm");
 //                            Date curr=new Date();
 //                            String sas=currF.format(curr);
-                                Calendar arr = Calendar.getInstance();
-                                String times[]=time.split(":");
-                                arr.set(Calendar.HOUR_OF_DAY,Integer.parseInt(times[0]));
-                                arr.set(Calendar.MINUTE,Integer.parseInt(times[1]));
-                                Calendar curr=Calendar.getInstance();
-                                long r=arr.getTime().getTime()-curr.getTime().getTime();
-                                Log.e("8***************",r+"");
-                                int d=(int)(r/(1000*60));
-                                SetUpAlarm s=new SetUpAlarm(showtime.this);
-                                Toast.makeText(showtime.this, "Alarm set !!!", Toast.LENGTH_LONG).show();
-                                s.set(1);
+                                                Calendar arr = Calendar.getInstance();
+                                                String times[]=time.split(":");
+                                                arr.set(Calendar.HOUR_OF_DAY,Integer.parseInt(times[0]));
+                                                arr.set(Calendar.MINUTE,Integer.parseInt(times[1]));
+                                                Calendar curr=Calendar.getInstance();
+                                                long r=arr.getTime().getTime()-curr.getTime().getTime();
+                                                Log.e("***************",r+"");
+                                                int d=(int)(r/(1000*60));
+                                                SetUpAlarm s=new SetUpAlarm(showtime.this);
+                                                Toast.makeText(showtime.this, "Alarm set !!!", Toast.LENGTH_LONG).show();
+                                                s.set(1);
 
 
-                                //displaying the route on the map
-                                Intent i=new Intent(showtime.this,RouteActivity.class);
-                                showtime.this.startActivity(i);
+                                                //displaying the route on the map
+                                                Intent i=new Intent(showtime.this,RouteActivity.class);
+                                                showtime.this.startActivity(i);
+                                            }
+                                        })
+                                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                // do nothing
+                                            }
+                                        })
+                                        .setIcon(android.R.drawable.ic_dialog_alert)
+                                        .show();
 
 
 
-
-
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
                         }
                     });
                     ll.addView(my);
