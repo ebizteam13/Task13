@@ -60,12 +60,13 @@ public class showtime extends Activity {
         DirectionsFetcher df=new DirectionsFetcher();
         Log.e("intent ", getIntent().getStringExtra("origin")+"");
         String origin=getIntent().getStringExtra("origin");
+        String leaveOrArrive=getIntent().getStringExtra("leaveorarrive");
 //        String origin="5440 fifth avenue";
         Log.e("fromstart",origin);
 //        String destination="carnegie mellon university";
         String destination=getIntent().getStringExtra("destination");
         String time=getIntent().getStringExtra("time");
-        df.execute(origin,destination,time);
+        df.execute(origin,destination,time,leaveOrArrive);
 
     }
     @Override
@@ -85,7 +86,7 @@ public class showtime extends Activity {
             Log.e("--------------", "in do in background method ");
             try {
                 String origin=strs[0];
-//                String destination=getIntent().getStringExtra("destination");
+//              String destination=getIntent().getStringExtra("destination");
                 String destination=strs[1];
 //                URL url = new URL();
 //                url.openConnection();
@@ -93,8 +94,18 @@ public class showtime extends Activity {
                 long deptTime=Long.parseLong(strs[2]);
 //                Date deptTime=(Date)getIntent().getExtras().get("date");
 //                long deptTime=System.currentTimeMillis();
-                long s = System.currentTimeMillis();
-                String url="http://maps.googleapis.com/maps/api/directions/json?origin="+URLEncoder.encode(origin,"UTF-8")+"&destination="+URLEncoder.encode(destination,"UTF-8")+"&mode=transit"+"&alternatives=true&departure_time="+deptTime;
+
+                String leaveOrArrive=strs[3];
+                String url="";
+                long tsa=System.currentTimeMillis();
+                Log.e("time to fetch ",System.currentTimeMillis()+"");
+
+                if(leaveOrArrive.toLowerCase().contains("depart")) {
+                    url= "http://maps.googleapis.com/maps/api/directions/json?origin=" + URLEncoder.encode(origin, "UTF-8") + "&destination=" + URLEncoder.encode(destination, "UTF-8") + "&mode=transit" + "&alternatives=true&departure_time=" + deptTime;
+                }else{
+                    url="http://maps.googleapis.com/maps/api/directions/json?origin=" + URLEncoder.encode(origin, "UTF-8") + "&destination=" + URLEncoder.encode(destination, "UTF-8") + "&mode=transit" + "&alternatives=true&arrival_time=" + deptTime;
+                }
+
 
                 Log.e("url  ",url);
                 HttpGet httpGet = new HttpGet(url);
@@ -108,9 +119,6 @@ public class showtime extends Activity {
                 //got the json now parse and display on the screen the required things
                 JSONObject jsonObj = new JSONObject(response);
                 JSONArray routes=jsonObj.getJSONArray("routes");
-
-                long e = System.currentTimeMillis();
-                Log.d("time for connection:",""+(e-s));
 
                 Log.d("routes",routes.toString());
                 return routes;

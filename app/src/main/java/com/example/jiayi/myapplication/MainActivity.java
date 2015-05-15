@@ -2,6 +2,7 @@ package com.example.jiayi.myapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -15,6 +16,10 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -93,8 +98,6 @@ public class MainActivity extends ActionBarActivity
 
         Log.e("after tim ", c.getTime().toString());
         //~~~~~~~~
-
-
     }
 
     public void addBookmark(View v){
@@ -127,6 +130,7 @@ public class MainActivity extends ActionBarActivity
         b.putString("time", t);
 //        b.putString("");
         intent.putExtras(b);
+        intent.putExtra("leaveorarrive",leaveOrArrive);
 
         intent.putExtra("origin", from);
         intent.putExtra("destination",to);
@@ -203,8 +207,31 @@ public class MainActivity extends ActionBarActivity
         intent.putExtras(b);
 
         intent.putExtra("origin", favoriteItem.getDepart());
-        intent.putExtra("destination",favoriteItem.getDepart());
+        intent.putExtra("destination",favoriteItem.getDestination());
         this.startActivity(intent);
 
+    }
+    public void exportDatabse(String databaseName) {
+        try {
+            File sd = Environment.getExternalStorageDirectory();
+            File data = Environment.getDataDirectory();
+
+            if (sd.canWrite()) {
+                String currentDBPath = "//data//"+getPackageName()+"//databases//"+databaseName+"";
+                String backupDBPath = "backupname.db";
+                File currentDB = new File(data, currentDBPath);
+                File backupDB = new File(sd, backupDBPath);
+
+                if (currentDB.exists()) {
+                    FileChannel src = new FileInputStream(currentDB).getChannel();
+                    FileChannel dst = new FileOutputStream(backupDB).getChannel();
+                    dst.transferFrom(src, 0, src.size());
+                    src.close();
+                    dst.close();
+                }
+            }
+        } catch (Exception e) {
+
+        }
     }
 }
