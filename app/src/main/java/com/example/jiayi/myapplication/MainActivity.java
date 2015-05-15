@@ -1,6 +1,5 @@
 package com.example.jiayi.myapplication;
 
-import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -16,7 +15,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
-import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -100,7 +98,7 @@ public class MainActivity extends ActionBarActivity
     }
 
     public void addBookmark(View v){
-        favoriteDB.addFavorite(new FavoriteItem(((EditText) findViewById(R.id.to)).getText().toString(), ((EditText) findViewById(R.id.from)).getText().toString()));
+        favoriteDB.addFavorite(new FavoriteItem(((EditText) findViewById(R.id.from)).getText().toString(), ((EditText) findViewById(R.id.to)).getText().toString()));
         ((Button)findViewById(R.id.addBookmark)).setEnabled(false);
     }
 
@@ -189,6 +187,26 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public void onFragmentInteraction(FavoriteItem favoriteItem) {
+<<<<<<< HEAD
 
+=======
+        Intent intent = new Intent(this, showtime.class);
+        c = Calendar.getInstance();
+
+        String timeFormat = "hh:mm a";
+        SimpleDateFormat stf = new SimpleDateFormat((timeFormat));
+        String time = stf.format(c.getTime());
+
+        String t=String.valueOf(c.getTimeInMillis()/1000);
+
+        Bundle b=new Bundle();
+        b.putString("time", t);
+//        b.putString("");
+        intent.putExtras(b);
+
+        intent.putExtra("origin", favoriteItem.getDepart());
+        intent.putExtra("destination",favoriteItem.getDepart());
+        this.startActivity(intent);
+>>>>>>> origin/master
     }
 }
