@@ -99,7 +99,7 @@ public class MainActivity extends ActionBarActivity
 
     }
 
-    public void addBookmark(){
+    public void addBookmark(View v){
         favoriteDB.addFavorite(new FavoriteItem(((EditText) findViewById(R.id.to)).getText().toString(), ((EditText) findViewById(R.id.from)).getText().toString()));
         ((Button)findViewById(R.id.addBookmark)).setEnabled(false);
     }
@@ -187,4 +187,8 @@ public class MainActivity extends ActionBarActivity
 
     }
 
+    @Override
+    public void onFragmentInteraction(FavoriteItem favoriteItem) {
+        
+    }
 }
