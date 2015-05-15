@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -142,7 +141,7 @@ public class FavoriteDB extends SQLiteOpenHelper {
                 //item.setId(cursor.getInt(0));
                 // Adding favorite item to list
                 stopItems.add(item);
-                Log.e("***************", item.getStopname());
+                //Log.e("***************", item.getStopname());
             } while (cursor.moveToNext());
         }
 
