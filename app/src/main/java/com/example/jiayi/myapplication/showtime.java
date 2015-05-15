@@ -1,6 +1,5 @@
 package com.example.jiayi.myapplication;
 
-<<<<<<< HEAD
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,10 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
-=======
->>>>>>> origin/master
 import android.app.Activity;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -42,6 +38,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class showtime extends Activity {
@@ -49,25 +46,33 @@ public class showtime extends Activity {
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private TextView stopView;
     private Button button;
-    String origin;
-    String destination;
+    private String origin;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_showtime);
-        //setUpMapIfNeeded();
+
 //        stopView=(TextView)findViewById(R.id.textView2);
 //        button=(Button)findViewById(R.id.button);
 
+        Log.e("fromstart","--------------------------------------------");
         DirectionsFetcher df=new DirectionsFetcher();
-        origin="5440 fifth avenue";
-        destination="carnegie mellon university";
-        df.execute(origin,destination);
-        //TRY TO SHOW USERS CURRENT LOCATION
-
+        Log.e("intent ", getIntent().getStringExtra("origin")+"");
+        String origin=getIntent().getStringExtra("origin");
+//        String origin="5440 fifth avenue";
+        Log.e("fromstart",origin);
+//        String destination="carnegie mellon university";
+        String destination=getIntent().getStringExtra("destination");
+        String time=getIntent().getStringExtra("time");
+        df.execute(origin,destination,time);
 
     }
-
+    @Override
+    public void onStart() {
+        //TRY TO SHOW USERS CURRENT LOCATION
+        super.onStart();
+    }
     private class DirectionsFetcher extends AsyncTask<String, Integer, JSONArray> {
         private List<LatLng> latLngs = new ArrayList<LatLng>();
         @Override
@@ -80,15 +85,21 @@ public class showtime extends Activity {
             Log.e("--------------","in do in background method ");
             try {
                 String origin=strs[0];
+//                String destination=getIntent().getStringExtra("destination");
                 String destination=strs[1];
 //                URL url = new URL();
 //                url.openConnection();
-                String url="http://maps.googleapis.com/maps/api/directions/json?origin="+URLEncoder.encode(origin,"UTF-8")+"&destination="+URLEncoder.encode(destination,"UTF-8")+"&mode=transit"+"&alternatives=true";
+//                long deptTime=getIntent().getExtras().getLong("time");
+                long deptTime=Long.parseLong(strs[2]);
+//                Date deptTime=(Date)getIntent().getExtras().get("date");
+//                long deptTime=System.currentTimeMillis();
+                String url="http://maps.googleapis.com/maps/api/directions/json?origin="+URLEncoder.encode(origin,"UTF-8")+"&destination="+URLEncoder.encode(destination,"UTF-8")+"&mode=transit"+"&alternatives=true&departure_time="+deptTime;
 
                 Log.e("url  ",url);
                 HttpGet httpGet = new HttpGet(url);
 //                httpGet.setHeader("Host","http://maps.googleapis.com");
                 HttpResponse hresponse=new DefaultHttpClient().execute(httpGet);
+                Log.e("TAG","aslkmflkamsdflkmalsd;fmlkasmdf");
                 HttpEntity hEntity=hresponse.getEntity();
                 String response = EntityUtils.toString(hEntity);
                 //got the json now parse and display on the screen the required things
@@ -127,39 +138,42 @@ public class showtime extends Activity {
             try {
                 LinearLayout ll=(LinearLayout)findViewById(R.id.skandy);
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-
-
+                Log.e("TAG ","before for loop"+routes.toString());
                 for(int i=0;i<routes.length();i++){
+                    Log.d("ijdie","inside for");
                     JSONObject route=routes.getJSONObject(i);
                     JSONArray a = route.getJSONArray("legs");
                     JSONObject as = a.getJSONObject(0);
                     JSONArray hh = as.getJSONArray("steps");
-                    JSONObject step = hh.getJSONObject(0);
+                    for(int asa=0 ; asa< hh.length();asa++) {
+                        Log.e("fuck ", "skandan wants log n stupid") ;
+                        JSONObject step = hh.getJSONObject(asa);
 
-                    String ss = (String) step.get("travel_mode");
-                    if(!step.has("transit_details")){continue;}
+                        String ss = (String) step.get("travel_mode");
+                        if (!step.has("transit_details")) {
+                            Log.e("TGGG", "no transit details");
+                            continue;
+                        }
 
-                    JSONObject details = step.getJSONObject("transit_details");
+                        JSONObject details = step.getJSONObject("transit_details");
 
-                    JSONObject arrivalStop = details.getJSONObject("arrival_stop");
-                    JSONObject arrivalTime = details.getJSONObject("arrival_time");
+                        final JSONObject arrivalStop = details.getJSONObject("arrival_stop");
+                        JSONObject arrivalTime = details.getJSONObject("arrival_time");
 
-                    JSONObject departureStop = details.getJSONObject("departure_stop");
-                    JSONObject departureTime = details.getJSONObject("departure_time");
+                        final JSONObject departureStop = details.getJSONObject("departure_stop");
+                        JSONObject departureTime = details.getJSONObject("departure_time");
 
-                    String busName=(String)details.getJSONObject("line").get("short_name");
-                    final String arrivalT=(String)arrivalTime.get("text");
-                    String arrivalS=(String)arrivalStop.get("name");
-                    final String deptT=(String)departureTime.get("text");
-                    String deptS=(String)departureStop.get("name");
+                        String busName = (String) details.getJSONObject("line").get("short_name");
+                        final String arrivalT = (String) arrivalTime.get("text");
+                        String arrivalS = (String) arrivalStop.get("name");
+                        final String deptT = (String) departureTime.get("text");
+                        String deptS = (String) departureStop.get("name");
 
-
-
-                    Button my=new Button(showtime.this);
-                    my.setText(busName+"\t"+arrivalT+" "+arrivalS+"\n\t"+deptT+" "+deptS);
-                    my.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
+                        Button my = new Button(showtime.this);
+                        my.setText(busName + "\t" + deptT + " " + deptS + "\n" + arrivalT + " " + arrivalS);
+                        my.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
 
                                 new AlertDialog.Builder(showtime.this)
                                         .setTitle("Set Alarm")
@@ -167,7 +181,7 @@ public class showtime extends Activity {
                                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int which) {
                                                 // continue with delete
-                                                String time= null;
+                                                String time = null;
                                                 try {
                                                     time = TWENTY_FOUR_TF.format(
                                                             TWELVE_TF.parse(arrivalT));
@@ -178,37 +192,45 @@ public class showtime extends Activity {
 //                            Date curr=new Date();
 //                            String sas=currF.format(curr);
                                                 Calendar arr = Calendar.getInstance();
-                                                String times[]=time.split(":");
-                                                arr.set(Calendar.HOUR_OF_DAY,Integer.parseInt(times[0]));
-                                                arr.set(Calendar.MINUTE,Integer.parseInt(times[1]));
-                                                Calendar curr=Calendar.getInstance();
-                                                long r=arr.getTime().getTime()-curr.getTime().getTime();
-                                                Log.e("***************",r+"");
-                                                int d=(int)(r/(1000*60));
-                                                SetUpAlarm s=new SetUpAlarm(showtime.this);
+                                                String times[] = time.split(":");
+                                                arr.set(Calendar.HOUR_OF_DAY, Integer.parseInt(times[0]));
+                                                arr.set(Calendar.MINUTE, Integer.parseInt(times[1]));
+                                                Calendar curr = Calendar.getInstance();
+                                                long r = arr.getTime().getTime() - curr.getTime().getTime();
+                                                Log.e("***************", r + "");
+                                                int d = (int) (r / (1000 * 60));
+                                                SetUpAlarm s = new SetUpAlarm(showtime.this);
                                                 Toast.makeText(showtime.this, "Alarm set !!!", Toast.LENGTH_LONG).show();
                                                 s.set(1);
 
 
                                                 //displaying the route on the map
-                                                Intent i=new Intent(showtime.this,RouteActivity.class);
+                                                Intent i = new Intent(showtime.this, RouteActivity.class);
+                                                i.putExtra("source", departureStop.toString());
+                                                i.putExtra("destination", arrivalStop.toString());
+
                                                 showtime.this.startActivity(i);
+
                                             }
                                         })
                                         .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int which) {
                                                 // do nothing
+                                                Intent i = new Intent(showtime.this, RouteActivity.class);
+                                                i.putExtra("source", departureStop.toString());
+                                                i.putExtra("source", arrivalStop.toString());
+
+                                                showtime.this.startActivity(i);
                                             }
                                         })
                                         .setIcon(android.R.drawable.ic_dialog_alert)
                                         .show();
 
 
-
-                        }
-                    });
-                    ll.addView(my);
-
+                            }
+                        });
+                        ll.addView(my);
+                    }
                 }
             }catch(Exception e){
                 e.printStackTrace();
@@ -230,6 +252,7 @@ public class showtime extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+
         //setUpMapIfNeeded();
     }
 

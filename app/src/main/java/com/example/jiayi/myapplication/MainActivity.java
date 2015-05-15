@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -34,19 +36,19 @@ public class MainActivity extends ActionBarActivity
 
     private EditText to1,from1;
     private Spinner arriveOrDepart;
-    private Calendar c;
+    public Calendar c=Calendar.getInstance();
 
     public FavoriteDB getFavoriteDB() {
         return favoriteDB;
     }
 
     private FavoriteDB favoriteDB;
-
+    TimePicker timePicker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+//        timePicker = (TimePicker) findViewById(R.id.timePicker);
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
@@ -91,42 +93,46 @@ public class MainActivity extends ActionBarActivity
         DialogHandler dialogHandler = new DialogHandler();
         dialogHandler.show(getSupportFragmentManager(), "time_picker");
 
+        Log.e("after tim ", c.getTime().toString());
         //~~~~~~~~
-        TimePickerDialog.OnTimeSetListener time = new TimePickerDialog.OnTimeSetListener() {
-            public void onTimeSet(TimePicker view, int hour, int minute) {
-                c.set(Calendar.HOUR, hour);
-                c.set(Calendar.MINUTE, hour);
-            }
-        };
+
+
     }
 
-    public void addBookmark(View v){
+    public void addBookmark(){
         favoriteDB.addFavorite(new FavoriteItem(((EditText) findViewById(R.id.to)).getText().toString(), ((EditText) findViewById(R.id.from)).getText().toString()));
         ((Button)findViewById(R.id.addBookmark)).setEnabled(false);
     }
-    public void searchRoute(View v){
+
+    public void searchRoute(){
         Intent intent = new Intent(this, showtime.class);
         to1 = (EditText) findViewById(R.id.to);
         from1 = (EditText) findViewById(R.id.from);
         arriveOrDepart = (Spinner) findViewById(R.id.spinner);
+        EditText hh=(EditText) findViewById(R.id.editText);
+        EditText mm=(EditText) findViewById(R.id.editText2);
+        c.set(Calendar.HOUR_OF_DAY,Integer.parseInt(hh.getText().toString()));
+        c.set(Calendar.MINUTE,Integer.parseInt(mm.getText().toString()));
 
         String timeFormat = "hh:mm a";
         SimpleDateFormat stf = new SimpleDateFormat((timeFormat));
         String time = stf.format(c.getTime());
         // Or
-        int hour = c.get(Calendar.HOUR);
-        int minute = c.get(Calendar.HOUR);
 
         String leaveOrArrive = arriveOrDepart.getSelectedItem().toString();
+
         String to = to1.getText().toString();
         String from = from1.getText().toString();
+        String t=String.valueOf(c.getTimeInMillis()/1000);
+        Log.e("time from main ", t + to + "" + from);
+        Bundle b=new Bundle();
+        b.putString("time", t);
+//        b.putString("");
+        intent.putExtras(b);
 
         intent.putExtra("origin", from);
         intent.putExtra("destination",to);
-        intent.putExtra("hour",hour);
-        intent.putExtra("minute",minute);
-
-        startActivity(intent);
+        this.startActivity(intent);
     }
 
     @Override
