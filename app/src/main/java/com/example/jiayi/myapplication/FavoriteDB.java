@@ -79,22 +79,29 @@ public class FavoriteDB extends SQLiteOpenHelper {
 
     // Returns a single favorite item by id
     public FavoriteItem getFavoriteItem(int id) {
-        // Open database for reading
+        List<FavoriteItem> favoriteItems = new ArrayList<FavoriteItem>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + TABLE;
+
         SQLiteDatabase db = this.getReadableDatabase();
-        // Construct and execute query
-        Cursor cursor = db.query(TABLE,  // TABLE
-                new String[]{KEY_ID, KEY_DEPART, KEY_DESTINATION}, // SELECT
-                KEY_ID + "= ?", new String[]{String.valueOf(id)},  // WHERE, ARGS
-                null, null, "id ASC", "100"); // GROUP BY, HAVING, ORDER BY, LIMIT
-        if (cursor != null)
-            cursor.moveToFirst();
-        // Load result into model object
-        FavoriteItem item = new FavoriteItem(cursor.getString(1), cursor.getString(2));
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                FavoriteItem item = new FavoriteItem(cursor.getString(1), cursor.getString(2));
+                item.setId(cursor.getInt(0));
+                // Adding favorite item to list
+                favoriteItems.add(item);
+            } while (cursor.moveToNext());
+        }
+
         // Close the cursor
         if (cursor != null)
             cursor.close();
-        // return favorite item
-        return item;
+
+        // return favorite list
+        return favoriteItems.get(id);
     }
 
     public List<FavoriteItem> getAllFavoriteItems() {
