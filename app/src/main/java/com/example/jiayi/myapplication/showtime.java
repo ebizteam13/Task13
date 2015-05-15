@@ -82,7 +82,7 @@ public class showtime extends Activity {
         @Override
         protected JSONArray doInBackground(String... strs) {
             String line="";
-            Log.e("--------------","in do in background method ");
+            Log.e("--------------", "in do in background method ");
             try {
                 String origin=strs[0];
 //                String destination=getIntent().getStringExtra("destination");
@@ -93,6 +93,7 @@ public class showtime extends Activity {
                 long deptTime=Long.parseLong(strs[2]);
 //                Date deptTime=(Date)getIntent().getExtras().get("date");
 //                long deptTime=System.currentTimeMillis();
+                long s = System.currentTimeMillis();
                 String url="http://maps.googleapis.com/maps/api/directions/json?origin="+URLEncoder.encode(origin,"UTF-8")+"&destination="+URLEncoder.encode(destination,"UTF-8")+"&mode=transit"+"&alternatives=true&departure_time="+deptTime;
 
                 Log.e("url  ",url);
@@ -101,10 +102,15 @@ public class showtime extends Activity {
                 HttpResponse hresponse=new DefaultHttpClient().execute(httpGet);
                 Log.e("TAG","aslkmflkamsdflkmalsd;fmlkasmdf");
                 HttpEntity hEntity=hresponse.getEntity();
+
+
                 String response = EntityUtils.toString(hEntity);
                 //got the json now parse and display on the screen the required things
                 JSONObject jsonObj = new JSONObject(response);
                 JSONArray routes=jsonObj.getJSONArray("routes");
+
+                long e = System.currentTimeMillis();
+                Log.d("time for connection:",""+(e-s));
 
                 Log.d("routes",routes.toString());
                 return routes;
@@ -124,10 +130,21 @@ public class showtime extends Activity {
                 LinearLayout ll=(LinearLayout)findViewById(R.id.skandy);
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 Log.e("TAG ","before for loop"+routes.toString());
+                boolean bool=false;
                 for(int i=0;i<routes.length();i++){
                     Log.d("ijdie","inside for");
                     JSONObject route=routes.getJSONObject(i);
                     JSONArray a = route.getJSONArray("legs");
+
+                    if(!bool) {
+                        RouteActivity.lat1 = String.valueOf(((JSONObject) a.get(0)).getJSONObject("start_location").get("lat"));
+                        RouteActivity.long1 =  String.valueOf(((JSONObject) a.get(0)).getJSONObject("start_location").get("lng"));
+
+                        RouteActivity.lat2 = String.valueOf(((JSONObject) a.get(0)).getJSONObject("end_location").get("lat"));
+                        RouteActivity.long2 = String.valueOf(((JSONObject) a.get(0)).getJSONObject("end_location").get("lng"));
+                        bool=true;
+                    }
+
                     JSONObject as = a.getJSONObject(0);
                     JSONArray hh = as.getJSONArray("steps");
                     for(int asa=0 ; asa< hh.length();asa++) {

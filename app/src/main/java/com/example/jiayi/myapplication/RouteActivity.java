@@ -39,6 +39,8 @@ public class RouteActivity extends FragmentActivity {
 
     private GoogleMap map; // Might be null if Google Play services APK is not available.
     ArrayList<LatLng> markerPoints;
+    static String lat1, long1;
+    static String lat2, long2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,8 +96,14 @@ public class RouteActivity extends FragmentActivity {
 */
 
 
-       LatLng source=new LatLng(40.442493,-79.942553);
+     /*  LatLng source=new LatLng(40.442493,-79.942553);
         LatLng destination=new LatLng(40.444353,-79.960835);
+*/
+
+        LatLng source=new LatLng(Double.parseDouble(lat1),Double.parseDouble(long1));
+        LatLng destination=new LatLng(Double.parseDouble(lat2),Double.parseDouble(long2));
+       // LatLng destination=new LatLng(40.444353,-79.960835);
+
         dr.setUpMapAndRequestRouter(source,destination);
 
 /*
