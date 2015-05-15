@@ -98,8 +98,6 @@ public class MainActivity extends ActionBarActivity
 
         Log.e("after tim ", c.getTime().toString());
         //~~~~~~~~
-
-
     }
 
     public void addBookmark(View v){
@@ -132,6 +130,7 @@ public class MainActivity extends ActionBarActivity
         b.putString("time", t);
 //        b.putString("");
         intent.putExtras(b);
+        intent.putExtra("leaveorarrive",leaveOrArrive);
 
         intent.putExtra("origin", from);
         intent.putExtra("destination",to);
