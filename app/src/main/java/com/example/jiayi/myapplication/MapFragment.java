@@ -19,6 +19,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.List;
+
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
  * See the <a href="https://developer.android.com/design/patterns/navigation-drawer.html#Interaction">
@@ -126,6 +128,16 @@ public class MapFragment extends Fragment implements View.OnClickListener, Locat
 
         // Zoom in the Google Map
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+        //StopDB stopDB= new StopDB(this.getActivity());
+        //stopDB.getStopItems(latLng);
+        if (this.getActivity()!=null)
+        {
+            mMap.addMarker(new MarkerOptions().position(new LatLng(40.4425, -79.9421)).title("Marker"));
+            FavoriteDB favoriteDB = ((MainActivity)this.getActivity()).getFavoriteDB();
+            List<StopItem> stopList = favoriteDB.getStopItems(latLng);
+            for (StopItem stopItem : stopList){
+                mMap.addMarker(new MarkerOptions().position(new LatLng(stopItem.latitude, stopItem.longitude)).title(stopItem.getRoutes()));
+            }}
 
 
 
@@ -152,6 +164,7 @@ public class MapFragment extends Fragment implements View.OnClickListener, Locat
      */
     private void setUpMap() {
         mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+
     }
 
     @Override
