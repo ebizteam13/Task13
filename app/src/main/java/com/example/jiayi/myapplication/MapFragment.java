@@ -1,7 +1,6 @@
 package com.example.jiayi.myapplication;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -132,7 +131,6 @@ public class MapFragment extends Fragment implements View.OnClickListener, Locat
         //stopDB.getStopItems(latLng);
         if (this.getActivity()!=null)
         {
-            mMap.addMarker(new MarkerOptions().position(new LatLng(40.4425, -79.9421)).title("Marker"));
             FavoriteDB favoriteDB = ((MainActivity)this.getActivity()).getFavoriteDB();
             List<StopItem> stopList = favoriteDB.getStopItems(latLng);
             for (StopItem stopItem : stopList){
