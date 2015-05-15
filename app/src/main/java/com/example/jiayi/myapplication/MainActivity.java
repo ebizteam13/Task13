@@ -187,9 +187,7 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public void onFragmentInteraction(FavoriteItem favoriteItem) {
-<<<<<<< HEAD
 
-=======
         Intent intent = new Intent(this, showtime.class);
         c = Calendar.getInstance();
 
@@ -207,6 +205,6 @@ public class MainActivity extends ActionBarActivity
         intent.putExtra("origin", favoriteItem.getDepart());
         intent.putExtra("destination",favoriteItem.getDepart());
         this.startActivity(intent);
->>>>>>> origin/master
+
     }
 }
