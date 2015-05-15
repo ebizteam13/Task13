@@ -86,6 +86,14 @@ public class RouteActivity extends FragmentActivity {
         //instantiate the object by passing the map instance
         DrawRoute dr=new DrawRoute(map);
         //this source & destination values are used for drawing the route on google maps
+       /* String source=getIntent().getExtras().getString("source");
+        String destination=getIntent().getExtras().getString("destination");
+
+        Log.d("source:",source);
+        Log.d("dest",destination);
+*/
+
+
        LatLng source=new LatLng(40.442493,-79.942553);
         LatLng destination=new LatLng(40.444353,-79.960835);
         dr.setUpMapAndRequestRouter(source,destination);

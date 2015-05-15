@@ -169,8 +169,9 @@ public class MapFragment extends Fragment implements View.OnClickListener, Locat
 
     @Override
     public void onClick(View v) {
-        Intent i=new Intent(getActivity(),showtime.class);
-        getActivity().startActivity(i);
+        //Intent i=new Intent(getActivity(),showtime.class);
+        //getActivity().startActivity(i);
+        ((MainActivity)getActivity()).searchRoute();
 
     }
 }

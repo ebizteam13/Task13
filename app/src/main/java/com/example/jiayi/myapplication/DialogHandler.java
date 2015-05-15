@@ -21,6 +21,7 @@ public class DialogHandler extends DialogFragment {
         TimeSettings timeSettings = new TimeSettings(getActivity());
         dialog = new TimePickerDialog(getActivity(),timeSettings,hour,minute,
                 DateFormat.is24HourFormat(getActivity()));
+
         return dialog;
     }
 }
