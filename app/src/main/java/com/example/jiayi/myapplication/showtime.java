@@ -105,23 +105,8 @@ public class showtime extends Activity {
                 //got the json now parse and display on the screen the required things
                 JSONObject jsonObj = new JSONObject(response);
                 JSONArray routes=jsonObj.getJSONArray("routes");
-//                Log.e("-------------size------------- ",routes.length()+"");
-                JSONObject route = routes.getJSONObject(0);
-                JSONArray legs ;
-                JSONObject leg ;
-                JSONArray steps=null ;
-                JSONObject dist;
-                Integer distance ;
-//                if(route.has("legs")) {
-                JSONArray a=route.getJSONArray("legs");
-                JSONObject as=a.getJSONObject(0);
-                JSONArray hh= as.getJSONArray("steps");
-                JSONObject step=hh.getJSONObject(0);
 
-                String ss=(String)step.get("travel_mode");
-                JSONObject details=step.getJSONObject("transit_details");
-                JSONObject arrivalStop=details.getJSONObject("arrival_stop");
-                JSONObject departureStop=details.getJSONObject("departure_stop");
+                Log.d("routes",routes.toString());
                 return routes;
 
             } catch (Exception ex) {
