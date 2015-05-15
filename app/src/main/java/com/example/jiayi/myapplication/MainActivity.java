@@ -130,7 +130,7 @@ public class MainActivity extends ActionBarActivity
         b.putString("time", t);
 //        b.putString("");
         intent.putExtras(b);
-        intent.putExtra("leaveorarrive",leaveOrArrive);
+        intent.putExtra("leaveorarrive", leaveOrArrive);
 
         intent.putExtra("origin", from);
         intent.putExtra("destination",to);
@@ -208,6 +208,7 @@ public class MainActivity extends ActionBarActivity
 
         intent.putExtra("origin", favoriteItem.getDepart());
         intent.putExtra("destination",favoriteItem.getDestination());
+        intent.putExtra("leaveorarrive","depart");
         this.startActivity(intent);
 
     }
