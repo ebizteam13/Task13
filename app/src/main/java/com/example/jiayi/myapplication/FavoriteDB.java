@@ -20,7 +20,7 @@ public class FavoriteDB extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
     // Database Name
-    private static final String DATABASE_NAME = "main";
+    private static final String DATABASE_NAME = "abc";
 
     // Table Name
     private static final String TABLE = "favorite";

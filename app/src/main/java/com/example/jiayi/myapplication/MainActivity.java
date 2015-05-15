@@ -46,6 +46,7 @@ public class MainActivity extends ActionBarActivity
     }
 
     private FavoriteDB favoriteDB;
+    AssetDBHelper assetDBHelper;
     TimePicker timePicker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +67,11 @@ public class MainActivity extends ActionBarActivity
                 .replace(R.id.container, new MapFragment())
                 .commit();
         //setUpMapIfNeeded();
+        assetDBHelper = new AssetDBHelper(this);
+        assetDBHelper.openDatabase();
         favoriteDB = new FavoriteDB(this);
+
+
     }
     protected void onResume() {
         super.onResume();
