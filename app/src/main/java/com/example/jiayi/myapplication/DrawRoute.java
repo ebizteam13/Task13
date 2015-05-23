@@ -48,7 +48,6 @@ public class DrawRoute {
 
         markerPoints = new ArrayList<LatLng>();
 
-        //hardcoded values of source and destination that are used for drawing the route from source to destination
         LatLng source=src;
         LatLng destination=dest;
 
