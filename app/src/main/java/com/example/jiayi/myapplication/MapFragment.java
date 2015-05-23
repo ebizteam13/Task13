@@ -129,13 +129,13 @@ public class MapFragment extends Fragment implements View.OnClickListener, Locat
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
         //StopDB stopDB= new StopDB(this.getActivity());
         //stopDB.getStopItems(latLng);
-        if (this.getActivity()!=null)
-        {
-            FavoriteDB favoriteDB = ((MainActivity)this.getActivity()).getFavoriteDB();
-            List<StopItem> stopList = favoriteDB.getStopItems(latLng);
-            for (StopItem stopItem : stopList){
-                mMap.addMarker(new MarkerOptions().position(new LatLng(stopItem.latitude, stopItem.longitude)).title(stopItem.getRoutes()));
-            }}
+//        if (this.getActivity()!=null)
+//        {
+//            FavoriteDB favoriteDB = ((MainActivity)this.getActivity()).getFavoriteDB();
+//            List<StopItem> stopList = favoriteDB.getStopItems(latLng);
+//            for (StopItem stopItem : stopList){
+//                mMap.addMarker(new MarkerOptions().position(new LatLng(stopItem.latitude, stopItem.longitude)).title(stopItem.getRoutes()));
+//            }}
 
 
 
